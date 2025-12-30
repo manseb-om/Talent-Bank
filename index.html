@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تسجيل الشركات – بنك الكفاءات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      background: #ffffff;
+      margin: auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      background: #1e88e5;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>طلب شركة – وظيفة مؤقتة</h1>
+
+    <!-- ملاحظة: ضع بريدك بدلاً من example@email.com -->
+    <form action="mailto:example@email.com" method="post" enctype="text/plain">
+
+      <label>اسم الشركة</label>
+      <input type="text" name="اسم الشركة" required />
+
+      <label>اسم الشخص المسؤول</label>
+      <input type="text" name="اسم المسؤول" required />
+
+      <label>البريد الإلكتروني للشركة</label>
+      <input type="email" name="بريد الشركة" required />
+
+      <label>رقم الهاتف</label>
+      <input type="tel" name="رقم الهاتف" required />
+
+      <label>المسمى الوظيفي المطلوب</label>
+      <input type="text" name="المسمى الوظيفي" required />
+
+      <label>نوع العمل</label>
+      <select name="نوع العمل" required>
+        <option value="">-- اختر --</option>
+        <option>دوام كامل</option>
+        <option>دوام جزئي</option>
+        <option>عمل مؤقت</option>
+      </select>
+
+      <label>مدة العقد (بالأشهر)</label>
+      <input type="number" name="مدة العقد بالأشهر" required />
+
+      <label>الراتب المتوقع</label>
+      <input type="text" name="الراتب المتوقع" required />
+
+      <label>عدد المطلوبين</label>
+      <input type="number" name="عدد الموظفين" required />
+
+      <label>المهارات والمؤهلات المطلوبة</label>
+      <textarea name="المهارات والمؤهلات" rows="4" required></textarea>
+
+      <label>وصف إضافي أو ملاحظات</label>
+      <textarea name="ملاحظات إضافية" rows="4"></textarea>
+
+      <button type="submit">إرسال الطلب إلى بنك الكفاءات</button>
+    </form>
+  </div>
+</body>
+</html>
