@@ -15,7 +15,7 @@
     .lang-toggle {
       position: fixed;
       top: 20px;
-      right: 20px; /* باتجاه اليمين مع مسافة */
+      right: 40px; /* مسافة بسيطة عن الحافة اليمنى */
       padding: 8px 12px;
       background: #2e7d32; /* أخضر غامق */
       color: #fff;
@@ -31,7 +31,7 @@
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center; /* النصوص داخل العنوان واللوجو مركزي */
+      text-align: center;
     }
     h1 {
       margin-bottom: 20px;
@@ -48,6 +48,7 @@
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 14px;
+      box-sizing: border-box;
     }
     textarea {
       resize: vertical;
@@ -84,19 +85,19 @@
 
     <form action="mailto:info@manseb.co?subject=طلب شركة – بنك الكفاءات" method="post" enctype="text/plain">
       <label id="labelCompany"></label>
-      <input type="text" name="اسم الشركة" id="inputCompany" required />
+      <input type="text" name="اسم الشركة" required />
 
       <label id="labelPerson"></label>
-      <input type="text" name="اسم المسؤول" id="inputPerson" required />
+      <input type="text" name="اسم المسؤول" required />
 
       <label id="labelEmail"></label>
-      <input type="email" name="بريد الشركة" id="inputEmail" required />
+      <input type="email" name="بريد الشركة" required />
 
       <label id="labelPhone"></label>
-      <input type="tel" name="رقم الهاتف" id="inputPhone" required />
+      <input type="tel" name="رقم الهاتف" required />
 
       <label id="labelJob"></label>
-      <input type="text" name="المسمى الوظيفي" id="inputJob" required />
+      <input type="text" name="المسمى الوظيفي" required />
 
       <label id="labelWorkType"></label>
       <select name="نوع العمل" id="workTypeSelect" required>
@@ -107,19 +108,19 @@
       </select>
 
       <label id="labelContract"></label>
-      <input type="number" name="مدة العقد بالأشهر" id="inputContract" required />
+      <input type="number" name="مدة العقد بالأشهر" required />
 
       <label id="labelSalary"></label>
-      <input type="text" name="الراتب المتوقع" id="inputSalary" required />
+      <input type="text" name="الراتب المتوقع" required />
 
       <label id="labelQuantity"></label>
-      <input type="number" name="عدد الموظفين" id="inputQuantity" required />
+      <input type="number" name="عدد الموظفين" required />
 
       <label id="labelSkills"></label>
-      <textarea name="المهارات والمؤهلات" id="inputSkills" rows="4" required></textarea>
+      <textarea name="المهارات والمؤهلات" rows="4" required></textarea>
 
       <label id="labelNotes"></label>
-      <textarea name="ملاحظات إضافية" id="inputNotes" rows="4"></textarea>
+      <textarea name="ملاحظات إضافية" rows="4"></textarea>
 
       <button type="submit" class="submit-btn" id="submitBtn"></button>
     </form>
@@ -222,3 +223,4 @@
   </script>
 </body>
 </html>
+
