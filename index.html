@@ -11,12 +11,13 @@
       margin: 0;
       padding: 20px;
     }
+    /* زر تغيير اللغة */
     .lang-toggle {
       position: fixed;
       top: 20px;
-      left: 20px;
+      right: 20px; /* باتجاه اليمين مع مسافة */
       padding: 8px 12px;
-      background: #1565c0;
+      background: #2e7d32; /* أخضر غامق */
       color: #fff;
       border: none;
       border-radius: 6px;
@@ -30,7 +31,7 @@
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center;
+      text-align: center; /* النصوص داخل العنوان واللوجو مركزي */
     }
     h1 {
       margin-bottom: 20px;
@@ -39,7 +40,6 @@
       font-weight: bold;
       display: block;
       margin-top: 15px;
-      text-align: left;
     }
     input, select, textarea {
       width: 100%;
@@ -56,7 +56,7 @@
       margin-top: 25px;
       width: 100%;
       padding: 14px;
-      background: #43A047;
+      background: #2e7d32; /* أخضر غامق */
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -84,19 +84,19 @@
 
     <form action="mailto:info@manseb.co?subject=طلب شركة – بنك الكفاءات" method="post" enctype="text/plain">
       <label id="labelCompany"></label>
-      <input type="text" name="اسم الشركة" required />
+      <input type="text" name="اسم الشركة" id="inputCompany" required />
 
       <label id="labelPerson"></label>
-      <input type="text" name="اسم المسؤول" required />
+      <input type="text" name="اسم المسؤول" id="inputPerson" required />
 
       <label id="labelEmail"></label>
-      <input type="email" name="بريد الشركة" required />
+      <input type="email" name="بريد الشركة" id="inputEmail" required />
 
       <label id="labelPhone"></label>
-      <input type="tel" name="رقم الهاتف" required />
+      <input type="tel" name="رقم الهاتف" id="inputPhone" required />
 
       <label id="labelJob"></label>
-      <input type="text" name="المسمى الوظيفي" required />
+      <input type="text" name="المسمى الوظيفي" id="inputJob" required />
 
       <label id="labelWorkType"></label>
       <select name="نوع العمل" id="workTypeSelect" required>
@@ -107,19 +107,19 @@
       </select>
 
       <label id="labelContract"></label>
-      <input type="number" name="مدة العقد بالأشهر" required />
+      <input type="number" name="مدة العقد بالأشهر" id="inputContract" required />
 
       <label id="labelSalary"></label>
-      <input type="text" name="الراتب المتوقع" required />
+      <input type="text" name="الراتب المتوقع" id="inputSalary" required />
 
       <label id="labelQuantity"></label>
-      <input type="number" name="عدد الموظفين" required />
+      <input type="number" name="عدد الموظفين" id="inputQuantity" required />
 
       <label id="labelSkills"></label>
-      <textarea name="المهارات والمؤهلات" rows="4" required></textarea>
+      <textarea name="المهارات والمؤهلات" id="inputSkills" rows="4" required></textarea>
 
       <label id="labelNotes"></label>
-      <textarea name="ملاحظات إضافية" rows="4"></textarea>
+      <textarea name="ملاحظات إضافية" id="inputNotes" rows="4"></textarea>
 
       <button type="submit" class="submit-btn" id="submitBtn"></button>
     </form>
@@ -150,7 +150,8 @@
           temporary: "عمل مؤقت"
         },
         toggleBtn: "English",
-        dir: "rtl"
+        dir: "rtl",
+        textAlign: "right"
       },
       en: {
         heading: "Company Request – Temporary Job",
@@ -175,7 +176,8 @@
           temporary: "Temporary Job"
         },
         toggleBtn: "العربية",
-        dir: "ltr"
+        dir: "ltr",
+        textAlign: "left"
       }
     };
 
@@ -204,6 +206,10 @@
 
       document.getElementById('toggleLang').innerText = t.toggleBtn;
       document.body.dir = t.dir;
+
+      // محاذاة النصوص داخل الفورم حسب اللغة
+      const labels = document.querySelectorAll("label, input, select, textarea");
+      labels.forEach(el => el.style.textAlign = t.textAlign);
     }
 
     document.getElementById('toggleLang').addEventListener('click', () => {
