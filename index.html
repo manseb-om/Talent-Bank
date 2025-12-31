@@ -28,12 +28,18 @@
 
     .container {
       max-width: 800px;
-      background: #fff;
       margin: 80px auto 0;
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
+
+      background-image: url('manseb.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(255,255,255,0.85);
+      backdrop-filter: blur(2px);
     }
 
     h1 {
@@ -80,6 +86,16 @@
       max-width: 150px;
       margin-bottom: 20px;
     }
+
+    .success-message {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #2e7d32;
+      color: #fff;
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -89,12 +105,16 @@
 
 <div class="container">
 
+  <!-- شعار LOGO.png -->
   <img src="LOGO.png" alt="LOGO" class="LOGO">
 
   <h1 id="heading"></h1>
 
+  <!-- رسالة النجاح -->
+  <div id="successMsg" class="success-message"></div>
+
   <!-- Formspree Form -->
-  <form action="https://formspree.io/f/mvzoeljd" method="POST">
+  <form id="companyForm" action="https://formspree.io/f/mvzoeljd" method="POST">
 
     <!-- إعدادات Formspree -->
     <input type="hidden" name="_subject" value="طلب شركة – بنك الكفاءات">
@@ -106,9 +126,6 @@
 
     <label id="labelPerson"></label>
     <input type="text" name="responsible_person" required>
-
-    <label id="labelEmail"></label>
-    <input type="email" name="company_email" required>
 
     <label id="labelPhone"></label>
     <input type="tel" name="phone_number" required>
@@ -150,7 +167,6 @@ const translations = {
     labels: {
       company: "اسم الشركة",
       person: "اسم الشخص المسؤول",
-      email: "البريد الإلكتروني للشركة",
       phone: "رقم الهاتف",
       job: "المسمى الوظيفي المطلوب",
       workType: "نوع العمل",
@@ -159,7 +175,8 @@ const translations = {
       quantity: "عدد المطلوبين",
       skills: "المهارات والمؤهلات المطلوبة",
       notes: "ملاحظات إضافية",
-      submit: "إرسال الطلب"
+      submit: "إرسال الطلب",
+      success: "تم إرسال الطلب بنجاح!"
     },
     options: {
       choose: "-- اختر --",
@@ -176,7 +193,6 @@ const translations = {
     labels: {
       company: "Company Name",
       person: "Responsible Person",
-      email: "Company Email",
       phone: "Phone Number",
       job: "Job Title",
       workType: "Job Type",
@@ -185,7 +201,8 @@ const translations = {
       quantity: "Number of Employees",
       skills: "Required Skills & Qualifications",
       notes: "Additional Notes",
-      submit: "Submit Request"
+      submit: "Submit Request",
+      success: "Form submitted successfully!"
     },
     options: {
       choose: "-- Select --",
@@ -208,7 +225,6 @@ function setLanguage(lang) {
 
   labelCompany.innerText = t.labels.company;
   labelPerson.innerText = t.labels.person;
-  labelEmail.innerText = t.labels.email;
   labelPhone.innerText = t.labels.phone;
   labelJob.innerText = t.labels.job;
   labelWorkType.innerText = t.labels.workType;
@@ -225,17 +241,44 @@ function setLanguage(lang) {
   optionTemporary.innerText = t.options.temporary;
 
   toggleLang.innerText = t.toggle;
-
-  document.querySelectorAll("input, textarea, select, label")
-    .forEach(el => el.style.textAlign = t.align);
 }
 
 toggleLang.addEventListener("click", () => {
   currentLang = currentLang === "ar" ? "en" : "ar";
   setLanguage(currentLang);
+  document.getElementById("successMsg").innerText = translations[currentLang].labels.success;
 });
 
 setLanguage(currentLang);
+
+// --- رسالة نجاح بعد الإرسال ---
+const form = document.getElementById("companyForm");
+const successMsg = document.getElementById("successMsg");
+
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const data = new FormData(form);
+  const action = form.action;
+
+  try {
+    const response = await fetch(action, {
+      method: "POST",
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      form.reset();
+      successMsg.style.display = "block";
+      successMsg.innerText = translations[currentLang].labels.success;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      alert("حدث خطأ، يرجى المحاولة لاحقاً.");
+    }
+  } catch (error) {
+    alert("حدث خطأ، يرجى المحاولة لاحقاً.");
+  }
+});
 </script>
 
 </body>
