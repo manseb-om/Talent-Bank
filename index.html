@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>تسجيل الشركات – بنك الكفاءات</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,215 +12,231 @@
       margin: 0;
       padding: 20px;
     }
-    /* زر تغيير اللغة */
+
     .lang-toggle {
       position: fixed;
       top: 20px;
-      right: 40px; /* مسافة بسيطة عن الحافة اليمنى */
-      padding: 8px 12px;
-      background: #2e7d32; /* أخضر غامق */
+      right: 30px;
+      padding: 8px 14px;
+      background: #2e7d32;
       color: #fff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       z-index: 1000;
     }
+
     .container {
       max-width: 800px;
-      background: #ffffff;
+      background: #fff;
       margin: 80px auto 0;
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
     }
+
     h1 {
       margin-bottom: 20px;
     }
+
     label {
       font-weight: bold;
       display: block;
       margin-top: 15px;
     }
+
     input, select, textarea {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
+      margin-top: 6px;
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 14px;
       box-sizing: border-box;
     }
+
     textarea {
       resize: vertical;
     }
+
     button.submit-btn {
       margin-top: 25px;
       width: 100%;
       padding: 14px;
-      background: #2e7d32; /* أخضر غامق */
+      background: #2e7d32;
       color: #fff;
       border: none;
       border-radius: 10px;
       font-size: 16px;
       cursor: pointer;
     }
+
     button.submit-btn:hover {
-      background: #1565c0;
+      background: #1b5e20;
     }
+
     .logo {
       max-width: 150px;
       margin-bottom: 20px;
     }
   </style>
 </head>
+
 <body>
-  <!-- زر تغيير اللغة -->
-  <button class="lang-toggle" id="toggleLang">English</button>
 
-  <div class="container">
-    <!-- شعار المنصة -->
-    <img src="logo.png" alt="شعار منصب" class="logo" id="logo">
+<button class="lang-toggle" id="toggleLang">English</button>
 
-    <h1 id="heading"></h1>
+<div class="container">
 
-    <form action="mailto:info@manseb.co?subject=طلب شركة – بنك الكفاءات" method="post" enctype="text/plain">
-      <label id="labelCompany"></label>
-      <input type="text" name="اسم الشركة" required />
+  <img src="logo.png" alt="Logo" class="logo">
 
-      <label id="labelPerson"></label>
-      <input type="text" name="اسم المسؤول" required />
+  <h1 id="heading"></h1>
 
-      <label id="labelEmail"></label>
-      <input type="email" name="بريد الشركة" required />
+  <!-- Formspree Form -->
+  <form action="https://formspree.io/f/mvzoeljd" method="POST">
 
-      <label id="labelPhone"></label>
-      <input type="tel" name="رقم الهاتف" required />
+    <!-- إعدادات Formspree -->
+    <input type="hidden" name="_subject" value="طلب شركة – بنك الكفاءات">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
 
-      <label id="labelJob"></label>
-      <input type="text" name="المسمى الوظيفي" required />
+    <label id="labelCompany"></label>
+    <input type="text" name="company_name" required>
 
-      <label id="labelWorkType"></label>
-      <select name="نوع العمل" id="workTypeSelect" required>
-        <option id="optionChoose"></option>
-        <option id="optionFullTime"></option>
-        <option id="optionPartTime"></option>
-        <option id="optionTemporary"></option>
-      </select>
+    <label id="labelPerson"></label>
+    <input type="text" name="responsible_person" required>
 
-      <label id="labelContract"></label>
-      <input type="number" name="مدة العقد بالأشهر" required />
+    <label id="labelEmail"></label>
+    <input type="email" name="company_email" required>
 
-      <label id="labelSalary"></label>
-      <input type="text" name="الراتب المتوقع" required />
+    <label id="labelPhone"></label>
+    <input type="tel" name="phone_number" required>
 
-      <label id="labelQuantity"></label>
-      <input type="number" name="عدد الموظفين" required />
+    <label id="labelJob"></label>
+    <input type="text" name="job_title" required>
 
-      <label id="labelSkills"></label>
-      <textarea name="المهارات والمؤهلات" rows="4" required></textarea>
+    <label id="labelWorkType"></label>
+    <select name="job_type" required>
+      <option id="optionChoose"></option>
+      <option id="optionFullTime"></option>
+      <option id="optionPartTime"></option>
+      <option id="optionTemporary"></option>
+    </select>
 
-      <label id="labelNotes"></label>
-      <textarea name="ملاحظات إضافية" rows="4"></textarea>
+    <label id="labelContract"></label>
+    <input type="number" name="contract_duration_months" required>
 
-      <button type="submit" class="submit-btn" id="submitBtn"></button>
-    </form>
-  </div>
+    <label id="labelSalary"></label>
+    <input type="text" name="expected_salary" required>
 
-  <script>
-    const translations = {
-      ar: {
-        heading: "طلب شركة – وظيفة مؤقتة",
-        labels: {
-          company: "اسم الشركة",
-          person: "اسم الشخص المسؤول",
-          email: "البريد الإلكتروني للشركة",
-          phone: "رقم الهاتف",
-          job: "المسمى الوظيفي المطلوب",
-          workType: "نوع العمل",
-          contract: "مدة العقد (بالأشهر)",
-          salary: "الراتب المتوقع",
-          quantity: "عدد المطلوبين",
-          skills: "المهارات والمؤهلات المطلوبة",
-          notes: "وصف إضافي أو ملاحظات",
-          submit: "إرسال الطلب إلى بنك الكفاءات"
-        },
-        options: {
-          choose: "-- اختر --",
-          fullTime: "دوام كامل",
-          partTime: "دوام جزئي",
-          temporary: "عمل مؤقت"
-        },
-        toggleBtn: "English",
-        dir: "rtl",
-        textAlign: "right"
-      },
-      en: {
-        heading: "Company Request – Temporary Job",
-        labels: {
-          company: "Company Name",
-          person: "Responsible Person",
-          email: "Company Email",
-          phone: "Phone Number",
-          job: "Job Title",
-          workType: "Job Type",
-          contract: "Contract Duration (months)",
-          salary: "Expected Salary",
-          quantity: "Number of Employees",
-          skills: "Required Skills & Qualifications",
-          notes: "Additional Notes",
-          submit: "Send Request to Manseb"
-        },
-        options: {
-          choose: "-- Select --",
-          fullTime: "Full-time",
-          partTime: "Part-time",
-          temporary: "Temporary Job"
-        },
-        toggleBtn: "العربية",
-        dir: "ltr",
-        textAlign: "left"
-      }
-    };
+    <label id="labelQuantity"></label>
+    <input type="number" name="employees_needed" required>
 
-    let currentLang = 'ar';
+    <label id="labelSkills"></label>
+    <textarea name="required_skills" rows="4" required></textarea>
 
-    function setLanguage(lang) {
-      const t = translations[lang];
-      document.getElementById('heading').innerText = t.heading;
-      document.getElementById('labelCompany').innerText = t.labels.company;
-      document.getElementById('labelPerson').innerText = t.labels.person;
-      document.getElementById('labelEmail').innerText = t.labels.email;
-      document.getElementById('labelPhone').innerText = t.labels.phone;
-      document.getElementById('labelJob').innerText = t.labels.job;
-      document.getElementById('labelWorkType').innerText = t.labels.workType;
-      document.getElementById('labelContract').innerText = t.labels.contract;
-      document.getElementById('labelSalary').innerText = t.labels.salary;
-      document.getElementById('labelQuantity').innerText = t.labels.quantity;
-      document.getElementById('labelSkills').innerText = t.labels.skills;
-      document.getElementById('labelNotes').innerText = t.labels.notes;
-      document.getElementById('submitBtn').innerText = t.labels.submit;
+    <label id="labelNotes"></label>
+    <textarea name="additional_notes" rows="4"></textarea>
 
-      document.getElementById('optionChoose').innerText = t.options.choose;
-      document.getElementById('optionFullTime').innerText = t.options.fullTime;
-      document.getElementById('optionPartTime').innerText = t.options.partTime;
-      document.getElementById('optionTemporary').innerText = t.options.temporary;
+    <button type="submit" class="submit-btn" id="submitBtn"></button>
+  </form>
+</div>
 
-      document.getElementById('toggleLang').innerText = t.toggleBtn;
-      document.body.dir = t.dir;
+<script>
+const translations = {
+  ar: {
+    heading: "طلب شركة – بنك الكفاءات",
+    labels: {
+      company: "اسم الشركة",
+      person: "اسم الشخص المسؤول",
+      email: "البريد الإلكتروني للشركة",
+      phone: "رقم الهاتف",
+      job: "المسمى الوظيفي المطلوب",
+      workType: "نوع العمل",
+      contract: "مدة العقد (بالأشهر)",
+      salary: "الراتب المتوقع",
+      quantity: "عدد المطلوبين",
+      skills: "المهارات والمؤهلات المطلوبة",
+      notes: "ملاحظات إضافية",
+      submit: "إرسال الطلب"
+    },
+    options: {
+      choose: "-- اختر --",
+      fullTime: "دوام كامل",
+      partTime: "دوام جزئي",
+      temporary: "عمل مؤقت"
+    },
+    toggle: "English",
+    dir: "rtl",
+    align: "right"
+  },
+  en: {
+    heading: "Company Request – Talent Bank",
+    labels: {
+      company: "Company Name",
+      person: "Responsible Person",
+      email: "Company Email",
+      phone: "Phone Number",
+      job: "Job Title",
+      workType: "Job Type",
+      contract: "Contract Duration (Months)",
+      salary: "Expected Salary",
+      quantity: "Number of Employees",
+      skills: "Required Skills & Qualifications",
+      notes: "Additional Notes",
+      submit: "Submit Request"
+    },
+    options: {
+      choose: "-- Select --",
+      fullTime: "Full-time",
+      partTime: "Part-time",
+      temporary: "Temporary"
+    },
+    toggle: "العربية",
+    dir: "ltr",
+    align: "left"
+  }
+};
 
-      // محاذاة النصوص داخل الفورم حسب اللغة
-      const labels = document.querySelectorAll("label, input, select, textarea");
-      labels.forEach(el => el.style.textAlign = t.textAlign);
-    }
+let currentLang = "ar";
 
-    document.getElementById('toggleLang').addEventListener('click', () => {
-      currentLang = currentLang === 'ar' ? 'en' : 'ar';
-      setLanguage(currentLang);
-    });
+function setLanguage(lang) {
+  const t = translations[lang];
+  document.documentElement.dir = t.dir;
+  document.getElementById("heading").innerText = t.heading;
 
-    // اللغة الافتراضية
-    setLanguage(currentLang);
-  </script>
+  labelCompany.innerText = t.labels.company;
+  labelPerson.innerText = t.labels.person;
+  labelEmail.innerText = t.labels.email;
+  labelPhone.innerText = t.labels.phone;
+  labelJob.innerText = t.labels.job;
+  labelWorkType.innerText = t.labels.workType;
+  labelContract.innerText = t.labels.contract;
+  labelSalary.innerText = t.labels.salary;
+  labelQuantity.innerText = t.labels.quantity;
+  labelSkills.innerText = t.labels.skills;
+  labelNotes.innerText = t.labels.notes;
+  submitBtn.innerText = t.labels.submit;
+
+  optionChoose.innerText = t.options.choose;
+  optionFullTime.innerText = t.options.fullTime;
+  optionPartTime.innerText = t.options.partTime;
+  optionTemporary.innerText = t.options.temporary;
+
+  toggleLang.innerText = t.toggle;
+
+  document.querySelectorAll("input, textarea, select, label")
+    .forEach(el => el.style.textAlign = t.align);
+}
+
+toggleLang.addEventListener("click", () => {
+  currentLang = currentLang === "ar" ? "en" : "ar";
+  setLanguage(currentLang);
+});
+
+setLanguage(currentLang);
+</script>
+
 </body>
 </html>
