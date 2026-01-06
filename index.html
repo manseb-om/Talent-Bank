@@ -1,1 +1,356 @@
-<!DOCTYPE html> <html lang="ar" dir="rtl"> <head> <meta charset="UTF-8" /> <title>تسجيل الشركات – بنك الكفاءات</title> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <style> body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f7fa; } /* --- Splash Screen --- */ #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1b5e20; /* أخضر داكن */ color: #fff; display: flex; justify-content: center; align-items: center; font-size: 36px; font-weight: bold; z-index: 10000; transition: opacity 0.5s ease; } /* --- زر اللغة --- */ .lang-toggle { position: fixed; top: 20px; right: 30px; padding: 8px 14px; background: #2e7d32; color: #fff; border: none; border-radius: 6px; cursor: pointer; z-index: 1000; } /* --- Container --- */ .container { max-width: 800px; margin: 80px auto; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); text-align: center; /* خلفية صورة مع overlay */ background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://images.unsplash.com/photo-1581090700227-3a1b777e00b1?auto=format&fit=crop&w=1600&q=80') no-repeat center center; background-size: cover; backdrop-filter: blur(3px); } h1, h3 { margin-bottom: 20px; } label { font-weight: bold; display: block; margin-top: 15px; } input, select, textarea { width: 100%; padding: 10px; margin-top: 6px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; } textarea { resize: vertical; } button.submit-btn { margin-top: 25px; width: 100%; padding: 14px; background: #2e7d32; color: #fff; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; } button.submit-btn:hover { background: #1b5e20; } /* --- الشعار --- */ .logo { width: 150px; /* حجم الشعار */ height: auto; display: block; margin: 0 auto 20px auto; /* في الوسط مع مسافة تحت الشعار */ } /* --- رسالة نجاح جذابة --- */ .success-message { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; padding: 30px; border-radius: 16px; background: linear-gradient(135deg, #4caf50, #81c784); color: #fff; font-weight: bold; font-size: 18px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.2); animation: fadeIn 0.5s ease forwards; z-index: 999; } @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, -60%); } to { opacity: 1; transform: translate(-50%, -50%); } } .success-message button { margin-top: 15px; padding: 10px 20px; border: none; border-radius: 10px; background: #2e7d32; color: white; cursor: pointer; font-size: 16px; } .success-message button:hover { background: #1b5e20; } </style> </head> <body> <!-- Splash Screen --> <div id="splash">بنك الكفاءات (Talent Bank)</div> <button class="lang-toggle" id="toggleLang">English</button> <div class="container"> <!-- شعار LOGO.png --> <img src="LOGO.png" alt="LOGO" class="logo"> <h3 id="heading"></h3> <div id="successMsg" class="success-message"></div> <!-- Formspree Form --> <form id="companyForm" action="https://formspree.io/f/mvzoeljd" method="POST"> <input type="hidden" name="_subject" value="طلب شركة – بنك الكفاءات"> <input type="hidden" name="_template" value="table"> <input type="hidden" name="_captcha" value="false"> <label id="labelCompany"></label> <input type="text" name="company_name" required placeholder="اسم الشركة / Company Name"> <label id="labelPerson"></label> <input type="text" name="responsible_person" required placeholder="اسم المسؤول / Responsible Person"> <label id="labelPhone"></label> <input type="tel" name="phone_number" required placeholder="رقم الهاتف / Phone Number"> <label id="labelJob"></label> <input type="text" name="job_title" required placeholder="المسمى الوظيفي / Job Title"> <label id="labelWorkType"></label> <select name="job_type" required> <option id="optionChoose"></option> <option id="optionFullTime"></option> <option id="optionPartTime"></option> <option id="optionTemporary"></option> </select> <label id="labelContract"></label> <input type="number" name="contract_duration_months" required placeholder="مدة العقد / Contract Duration (Months)"> <label id="labelSalary"></label> <input type="text" name="expected_salary" required placeholder="الراتب المتوقع / Expected Salary"> <label id="labelQuantity"></label> <input type="number" name="employees_needed" required placeholder="عدد المطلوبين / Number of Employees"> <label id="labelSkills"></label> <textarea name="required_skills" rows="4" required placeholder="المهارات / Required Skills"></textarea> <label id="labelNotes"></label> <textarea name="additional_notes" rows="4" placeholder="ملاحظات إضافية / Additional Notes"></textarea> <button type="submit" class="submit-btn" id="submitBtn"></button> </form> </div> <script> const translations = { ar: { heading: "طلب شركة – بنك الكفاءات", labels: { company: "اسم الشركة", person: "اسم الشخص المسؤول", phone: "رقم الهاتف", job: "المسمى الوظيفي المطلوب", workType: "نوع العمل", contract: "مدة العقد (بالأشهر)", salary: "الراتب المتوقع", quantity: "عدد المطلوبين", skills: "المهارات والمؤهلات المطلوبة", notes: "ملاحظات إضافية", submit: "إرسال الطلب", success: "تم إرسال الطلب بنجاح!" }, options: { choose: "-- اختر --", fullTime: "دوام كامل", partTime: "دوام جزئي", temporary: "عمل مؤقت" }, toggle: "English", dir: "rtl" }, en: { heading: "Company Request – Talent Bank", labels: { company: "Company Name", person: "Responsible Person", phone: "Phone Number", job: "Job Title", workType: "Job Type", contract: "Contract Duration (Months)", salary: "Expected Salary", quantity: "Number of Employees", skills: "Required Skills & Qualifications", notes: "Additional Notes", submit: "Submit Request", success: "Form submitted successfully!" }, options: { choose: "-- Select --", fullTime: "Full-time", partTime: "Part-time", temporary: "Temporary" }, toggle: "العربية", dir: "ltr" } }; let currentLang = "ar"; function setLanguage(lang) { const t = translations[lang]; document.documentElement.dir = t.dir; document.getElementById("heading").innerText = t.heading; labelCompany.innerText = t.labels.company; labelPerson.innerText = t.labels.person; labelPhone.innerText = t.labels.phone; labelJob.innerText = t.labels.job; labelWorkType.innerText = t.labels.workType; labelContract.innerText = t.labels.contract; labelSalary.innerText = t.labels.salary; labelQuantity.innerText = t.labels.quantity; labelSkills.innerText = t.labels.skills; labelNotes.innerText = t.labels.notes; submitBtn.innerText = t.labels.submit; optionChoose.innerText = t.options.choose; optionFullTime.innerText = t.options.fullTime; optionPartTime.innerText = t.options.partTime; optionTemporary.innerText = t.options.temporary; toggleLang.innerText = t.toggle; } toggleLang.addEventListener("click", () => { currentLang = currentLang === "ar" ? "en" : "ar"; setLanguage(currentLang); successMsg.innerText = translations[currentLang].labels.success; }); setLanguage(currentLang); // --- Splash Screen --- const splash = document.getElementById('splash'); window.addEventListener('load', () => { setTimeout(() => { splash.style.opacity = 0; setTimeout(() => splash.style.display = 'none', 500); }, 3000); // 3 ثواني }); // --- رسالة نجاح بعد الإرسال --- const form = document.getElementById("companyForm"); const successMsg = document.getElementById("successMsg"); form.addEventListener("submit", async function(e) { e.preventDefault(); const data = new FormData(form); const action = form.action; try { const response = await fetch(action, { method: "POST", body: data, headers: { 'Accept': 'application/json' } }); if (response.ok) { form.reset(); successMsg.style.display = "block"; successMsg.innerHTML = <p>${translations[currentLang].labels.success}</p> <button onclick="successMsg.style.display='none'">إغلاق / Close</button> ; window.scrollTo({ top: 0, behavior: 'smooth' }); } else { alert("حدث خطأ، يرجى المحاولة لاحقاً."); } } catch (error) { alert("حدث خطأ، يرجى المحاولة لاحقاً."); } }); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تسجيل الشركات – بنك الكفاءات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fa;
+    }
+
+    /* --- Splash Screen --- */
+    #splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1b5e20; /* أخضر داكن */
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+      font-weight: bold;
+      z-index: 10000;
+      transition: opacity 0.5s ease;
+    }
+
+    /* --- زر اللغة --- */
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      padding: 8px 14px;
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    /* --- Container --- */
+    .container {
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      text-align: center;
+      background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+                  url('https://images.unsplash.com/photo-1581090700227-3a1b777e00b1?auto=format&fit=crop&w=1600&q=80') no-repeat center center;
+      background-size: cover;
+      backdrop-filter: blur(3px);
+    }
+
+    h1, h3 { margin-bottom: 20px; }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    textarea { resize: vertical; }
+
+    button.submit-btn {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button.submit-btn:hover { background: #1b5e20; }
+
+    /* --- الشعار --- */
+    .logo {
+      width: 150px;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    /* --- صفحة الشكر النهائية --- */
+    .success-message {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #1b5e20, #4caf50);
+      color: #fff;
+      font-weight: bold;
+      font-size: 26px;
+      text-align: center;
+      z-index: 9999;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+    }
+
+    .success-message img {
+      width: 280px;
+      max-width: 90%;
+      margin-bottom: 25px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .success-message p {
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-size: 24px;
+    }
+
+    .success-message button {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #1b5e20;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .success-message button:hover { background: #e8f5e9; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Splash Screen -->
+<div id="splash">بنك الكفاءات (Talent Bank)</div>
+
+<button class="lang-toggle" id="toggleLang">English</button>
+
+<!-- صفحة الشكر خارج container -->
+<div id="successMsg" class="success-message"></div>
+
+<div class="container">
+  <!-- شعار LOGO.png -->
+  <img src="LOGO.png" alt="LOGO" class="logo">
+
+  <h3 id="heading"></h3>
+
+  <!-- Formspree Form -->
+  <form id="companyForm" action="https://formspree.io/f/mvzoeljd" method="POST">
+    <input type="hidden" name="_subject" value="طلب شركة – بنك الكفاءات">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+
+    <label id="labelCompany"></label>
+    <input type="text" name="company_name" required placeholder="اسم الشركة / Company Name">
+
+    <label id="labelPerson"></label>
+    <input type="text" name="responsible_person" required placeholder="اسم المسؤول / Responsible Person">
+
+    <label id="labelPhone"></label>
+    <input type="tel" name="phone_number" required placeholder="رقم الهاتف / Phone Number">
+
+    <label id="labelJob"></label>
+    <input type="text" name="job_title" required placeholder="المسمى الوظيفي / Job Title">
+
+    <label id="labelWorkType"></label>
+    <select name="job_type" required>
+      <option id="optionChoose"></option>
+      <option id="optionFullTime"></option>
+      <option id="optionPartTime"></option>
+      <option id="optionTemporary"></option>
+    </select>
+
+    <label id="labelContract"></label>
+    <input type="number" name="contract_duration_months" required placeholder="مدة العقد / Contract Duration (Months)">
+
+    <label id="labelSalary"></label>
+    <input type="text" name="expected_salary" required placeholder="الراتب المتوقع / Expected Salary">
+
+    <label id="labelQuantity"></label>
+    <input type="number" name="employees_needed" required placeholder="عدد المطلوبين / Number of Employees">
+
+    <label id="labelSkills"></label>
+    <textarea name="required_skills" rows="4" required placeholder="المهارات / Required Skills"></textarea>
+
+    <label id="labelNotes"></label>
+    <textarea name="additional_notes" rows="4" placeholder="ملاحظات إضافية / Additional Notes"></textarea>
+
+    <button type="submit" class="submit-btn" id="submitBtn"></button>
+  </form>
+</div>
+
+<script>
+const translations = {
+  ar: {
+    heading: "طلب شركة – بنك الكفاءات",
+    labels: {
+      company: "اسم الشركة",
+      person: "اسم الشخص المسؤول",
+      phone: "رقم الهاتف",
+      job: "المسمى الوظيفي المطلوب",
+      workType: "نوع العمل",
+      contract: "مدة العقد (بالأشهر)",
+      salary: "الراتب المتوقع",
+      quantity: "عدد المطلوبين",
+      skills: "المهارات والمؤهلات المطلوبة",
+      notes: "ملاحظات إضافية",
+      submit: "إرسال الطلب",
+      success: "تم إرسال الطلب بنجاح!"
+    },
+    options: {
+      choose: "-- اختر --",
+      fullTime: "دوام كامل",
+      partTime: "دوام جزئي",
+      temporary: "عمل مؤقت"
+    },
+    toggle: "English",
+    dir: "rtl"
+  },
+  en: {
+    heading: "Company Request – Talent Bank",
+    labels: {
+      company: "Company Name",
+      person: "Responsible Person",
+      phone: "Phone Number",
+      job: "Job Title",
+      workType: "Job Type",
+      contract: "Contract Duration (Months)",
+      salary: "Expected Salary",
+      quantity: "Number of Employees",
+      skills: "Required Skills & Qualifications",
+      notes: "Additional Notes",
+      submit: "Submit Request",
+      success: "Form submitted successfully!"
+    },
+    options: {
+      choose: "-- Select --",
+      fullTime: "Full-time",
+      partTime: "Part-time",
+      temporary: "Temporary"
+    },
+    toggle: "العربية",
+    dir: "ltr"
+  }
+};
+
+let currentLang = "ar";
+
+function setLanguage(lang) {
+  const t = translations[lang];
+  document.documentElement.dir = t.dir;
+  document.getElementById("heading").innerText = t.heading;
+
+  labelCompany.innerText = t.labels.company;
+  labelPerson.innerText = t.labels.person;
+  labelPhone.innerText = t.labels.phone;
+  labelJob.innerText = t.labels.job;
+  labelWorkType.innerText = t.labels.workType;
+  labelContract.innerText = t.labels.contract;
+  labelSalary.innerText = t.labels.salary;
+  labelQuantity.innerText = t.labels.quantity;
+  labelSkills.innerText = t.labels.skills;
+  labelNotes.innerText = t.labels.notes;
+  submitBtn.innerText = t.labels.submit;
+
+  optionChoose.innerText = t.options.choose;
+  optionFullTime.innerText = t.options.fullTime;
+  optionPartTime.innerText = t.options.partTime;
+  optionTemporary.innerText = t.options.temporary;
+
+  toggleLang.innerText = t.toggle;
+}
+
+toggleLang.addEventListener("click", () => {
+  currentLang = currentLang === "ar" ? "en" : "ar";
+  setLanguage(currentLang);
+  successMsg.innerText = translations[currentLang].labels.success;
+});
+
+setLanguage(currentLang);
+
+// --- Splash Screen ---
+const splash = document.getElementById('splash');
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    splash.style.opacity = 0;
+    setTimeout(() => splash.style.display = 'none', 500);
+  }, 3000);
+});
+
+// --- رسالة نجاح بعد الإرسال ---
+const form = document.getElementById("companyForm");
+const successMsg = document.getElementById("successMsg");
+
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const data = new FormData(form);
+  const action = form.action;
+
+  try {
+    const response = await fetch(action, {
+      method: "POST",
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      form.reset();
+      successMsg.style.display = "flex";
+      successMsg.innerHTML = `
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" alt="Thank You">
+        <p>${translations[currentLang].labels.success}<br>
+        نشكركم على التسجيل في بنك الكفاءات</p>
+        <button onclick="successMsg.style.display='none'">إغلاق / Close</button>
+      `;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      alert("حدث خطأ، يرجى المحاولة لاحقاً.");
+    }
+  } catch (error) {
+    alert("حدث خطأ، يرجى المحاولة لاحقاً.");
+  }
+});
+</script>
+
+</body>
+</html>
